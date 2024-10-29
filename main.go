@@ -154,13 +154,13 @@ func AcceptPackage(data string, storage []string) []string {
 	allSteps := stepsDay(storage)
 	allDistance := float64(allSteps) * StepLength
 	energy := calories(allDistance)
-	achiev := achievement(allDistance)
+	achiev := achievement(allDistance / 1000)
 
 	msg := fmt.Sprintf(`Время: %s.
 Количество шагов за сегодня: %d.
 Дистанция составила %.2f км.
 Вы сожгли %.2f ккал.
-%s`, t.Format("15:04:05"), allSteps, allDistance, energy, achiev)
+%s`, t.Format("15:04:05"), allSteps, allDistance/1000, energy, achiev)
 	showMessage(msg)
 	return storage
 }
