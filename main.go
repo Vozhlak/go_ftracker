@@ -76,9 +76,9 @@ func achievement(distance float64) string {
 	if distance >= 6.5 {
 		return "Отличный результат! Цель достигнута."
 	} else if distance >= 3.9 {
-		return "Неплохо! День был продуктивным."
+		return "Неплохо! День был продуктивный."
 	} else if distance >= 2 {
-		return "Маловато, но завтра наверстаем!"
+		return "Завтра наверстаем!"
 	} else {
 		return "Лежать тоже полезно. Главное — участие, а не победа!"
 	}
@@ -117,6 +117,7 @@ func AcceptPackage(data string, storage []string) []string {
 
 	if now.Day() != t.Day() {
 		showMessage("неверный день")
+		return storage
 	}
 
 	// выводим ошибку, если время в пакете больше текущего времени
@@ -151,18 +152,16 @@ func AcceptPackage(data string, storage []string) []string {
 	// 11. Вернуть storage
 	storage = append(storage, data)
 	allSteps := stepsDay(storage)
-	allDistance := (float64(allSteps) * StepLength) / 1000
-	energy := calories(allDistance) * 1000
+	allDistance := float64(allSteps) * StepLength
+	energy := calories(allDistance)
 	achiev := achievement(allDistance)
 
 	msg := fmt.Sprintf(`Время: %s.
 Количество шагов за сегодня: %d.
 Дистанция составила %.2f км.
 Вы сожгли %.2f ккал.
-%s`+"\n", t.Format("15:04:05"), allSteps, allDistance, energy, achiev)
-
-	fmt.Println(msg)
-
+%s`, t.Format("15:04:05"), allSteps, allDistance, energy, achiev)
+	showMessage(msg)
 	return storage
 }
 
